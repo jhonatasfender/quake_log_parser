@@ -16,4 +16,9 @@ return [
             'level' => \Monolog\Logger::DEBUG,
         ],
     ],
+    'connection' => [
+        'host' => 'localhost',
+        'user' => 'root',
+        'password' => 'P40s3g2015'
+    ]
 ];
