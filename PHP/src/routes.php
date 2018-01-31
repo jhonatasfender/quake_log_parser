@@ -24,3 +24,10 @@ $app->post('/search', function (Request $request, Response $response, array $arg
     
     return $this->renderer->render($response, 'index.phtml', ['b' => $b->get($request->getParsedBodyParam('search'))]);
 });
+
+$app->get('/json', function (Request $request, Response $response, array $args) {
+    $b = new \App\Library\ReaderLog();
+
+    $this->logger->info("Slim-Skeleton '/search' route");
+    d($b->init());
+});
