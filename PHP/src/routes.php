@@ -14,12 +14,13 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 });
 
 
-$app->get('/search', function (Request $request, Response $response, array $args) {
+$app->post('/search', function (Request $request, Response $response, array $args) {
     $b = new \App\Bootstrap();
 
-    d($request->getParsedBodyParam('search'));exit();
+    if($request->getParsedBodyParam('search') == null)
+    	return $response->withRedirect("/");
 
-    $this->logger->info("Slim-Skeleton '/' route");
+    $this->logger->info("Slim-Skeleton '/search' route");
     
-    return $this->renderer->render($response, 'index.phtml', ['b' => $b->get()]);
+    return $this->renderer->render($response, 'index.phtml', ['b' => $b->get($request->getParsedBodyParam('search'))]);
 });

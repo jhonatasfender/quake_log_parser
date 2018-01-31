@@ -14,8 +14,8 @@
                 RANKING
             </div>
             <div>
-                <form action="search">
-                    <input type="text" placeholder="Busca por nome" name="search">
+                <form action="search" method="post">
+                    <input type="text" placeholder="Busca por nome" name="search" autocomplete="off">
                     <button>Buscar</button>                    
                 </form>
             </div>
@@ -53,12 +53,24 @@
                             <span>KILLS</span>
                         </th>
                     </tr>
-                    <?php foreach ($b as $v): ?>
+                    <?php if ($b): ?>
+                        <?php foreach ($b as $v): ?>
+                            <tr>
+                                <td><?php echo $v->name ?></td>
+                                <td>
+                                    <?php if ($v->total < 0): ?>
+                                        <span><?php echo $v->total ?></span>
+                                    <?php else: ?>
+                                        <?php echo $v->total ?>
+                                    <?php endif ?>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
+                    <?php else: ?>
                         <tr>
-                            <td><?php echo $v->name ?></td>
-                            <td><?php echo $v->total ?></td>
-                        </tr>
-                    <?php endforeach ?>
+                            <td colspan="2">Nenhum resultado encontrado</td>
+                        </tr>                        
+                    <?php endif ?>
                 </table>
             </div>
         </div>

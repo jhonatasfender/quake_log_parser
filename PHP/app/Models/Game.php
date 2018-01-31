@@ -31,6 +31,12 @@ class Game extends Connection {
 		");
 	}
 
+	public function findAll() {
+		$this->find = $this->conn->prepare("SELECT * FROM game");
+		$this->find->execute();
+		return $this->find->fetchAll(\PDO::FETCH_OBJ);
+	}
+
 	public function save() {
 		$this->columns = [
 			'name' => $this->name,
@@ -46,19 +52,21 @@ class Game extends Connection {
 		}
 	}
 
-	public function count() {
-		$q = $this->conn->prepare("
+	public function count($search) {
+		$this->sql = "
 			SELECT 	p.name,
 					IF(sum(k.total) IS NULL,0,sum(k.total)) AS total
 			FROM game AS g
 			LEFT JOIN players AS p ON p.id_game = g.id_game
 			LEFT JOIN kills AS k ON k.id_players = p.id_players
+			" . ( "WHERE p.name LIKE '%$search%' " ) . "
 			GROUP BY p.name
 			ORDER BY total DESC;
-		");
+		";
+		$this->find = $this->conn->prepare($this->sql);
 
-		$q->execute();
-		return $q->fetchAll(\PDO::FETCH_OBJ);
+		$this->find->execute();
+		return $this->find->fetchAll(\PDO::FETCH_OBJ);
 	}
 
 }

@@ -3,19 +3,23 @@
 html, body
 	height: 100%
 
-
 body 
 	font-family: 'Roboto', sans-serif
 
 	.container
+		display: -webkit-box
+		display: -moz-box
+		display: -ms-flexbox
+		display: -webkit-flex
 		display: flex
 		flex-direction: column
 		background-color: #DADADA
 		min-height: 100%
+		align-items: center
+		justify-content: center
 
 		div
 			margin: 20px
-			margin-left: 104px
 
 		div:nth-child(1)
 			font-size: 34px
@@ -63,8 +67,7 @@ body
 					
 					svg
 						width: 27px
-
-					span
+						margin-left: 59px
 
 				td
 					color: #FFFFFF
@@ -73,6 +76,13 @@ body
 
 				td:nth-child(2)
 					text-align: center
-
+					font-weight: bold
+					
+					span
+						color: #F7A600
+			
 			tr:nth-child(even)
 				background-color: #646363
+
+
+

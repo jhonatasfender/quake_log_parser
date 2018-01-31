@@ -5,13 +5,18 @@ html, body {
 body {
   font-family: "Roboto", sans-serif; }
   body .container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
     flex-direction: column;
     background-color: #DADADA;
-    min-height: 100%; }
+    min-height: 100%;
+    align-items: center;
+    justify-content: center; }
     body .container div {
-      margin: 20px;
-      margin-left: 104px; }
+      margin: 20px; }
     body .container div:nth-child(1) {
       font-size: 34px;
       font-weight: bold; }
@@ -50,13 +55,17 @@ body {
           background-color: #F7A600;
           height: 42px; }
           body .container table tr th svg {
-            width: 27px; }
+            width: 27px;
+            margin-left: 59px; }
         body .container table tr td {
           color: #FFFFFF;
           padding: 5px;
           height: 42px; }
         body .container table tr td:nth-child(2) {
-          text-align: center; }
+          text-align: center;
+          font-weight: bold; }
+          body .container table tr td:nth-child(2) span {
+            color: #F7A600; }
       body .container table tr:nth-child(even) {
         background-color: #646363; }
 

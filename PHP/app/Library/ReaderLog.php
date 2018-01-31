@@ -9,6 +9,7 @@ class ReaderLog {
 
 	private $out;
 	private $line;
+	private $count = 0;
 	
 	public function __construct() {
 
@@ -20,14 +21,14 @@ class ReaderLog {
 	}
 
 	private function read() {
-		return file(__DIR__ . "/log/games.log");
+		return file(__DIR__ . "/../log/games.log");
 	}
 
 	/**
 	 * Inicio do jogo
 	 */
 	private function startGame() {
-		if(is_string($this->startGame($this->line))) {
+		if(is_string(Valid::startGame($this->line))) {
 			$this->count++;
 			$this->out->{'game_' . $this->count} = new \stdClass; 
 		}
@@ -53,7 +54,7 @@ class ReaderLog {
 	}
 
 	private function getPlayName() {
-		return $this->playerName($this->playerInfo($this->line));
+		return Valid::playerName(Valid::playerInfo($this->line));
 	}
 
 	/**
@@ -86,38 +87,38 @@ class ReaderLog {
 	 * inicializando a lista de mortos por jogador
 	 */
 	private function initListKillsPlayers() {
-		if(!isset($this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}))
-			$this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))} = new \stdClass;	
+		if(!isset($this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}))
+			$this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))} = new \stdClass;	
 	}
 	
 	/**
 	 * depois de inicializado a lista de mortos por jogador verifico se não existe o total e atribuo 0 para o total por usuario
 	 */
 	private function validTotalKillsPlayersExists() {
-		if(!isset($this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->total))
-			$this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->total = 0;
+		if(!isset($this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->total))
+			$this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->total = 0;
 	}
 
 	/**
 	 * Aqui eu inicializo o usuario morto caso não exista na lista criando anterio, faço isso de precaução
 	 */
 	private function initListKillsPlayersNameKey() {
-		if(!isset($this->out->{'game_' . $this->count}->kills->{$this->died($this->kill($this->line))}))
-			$this->out->{'game_' . $this->count}->kills->{$this->died($this->kill($this->line))} = new \stdClass;
+		if(!isset($this->out->{'game_' . $this->count}->kills->{Valid::died(Valid::kill($this->line))}))
+			$this->out->{'game_' . $this->count}->kills->{Valid::died(Valid::kill($this->line))} = new \stdClass;
 	}
 	
 	/**
 	 *  verifico o total se não existe
 	 */
 	private function validKillsPlayersNameKeyTotalExists() {
-		if(!isset($this->out->{'game_' . $this->count}->kills->{$this->died($this->kill($this->line))}->total))
-			$this->out->{'game_' . $this->count}->kills->{$this->died($this->kill($this->line))}->total = 0;							
+		if(!isset($this->out->{'game_' . $this->count}->kills->{Valid::died(Valid::kill($this->line))}->total))
+			$this->out->{'game_' . $this->count}->kills->{Valid::died(Valid::kill($this->line))}->total = 0;							
 	}
 	/**
 	 * Aqui verifico se foi o <world> quem matou
 	 */
 	private function world() {
-		if($this->killed($this->kill($this->line)) == "<world>") {
+		if(Valid::killed(Valid::kill($this->line)) == "<world>") {
 
 			$this->initListKillsPlayersNameKey();
 
@@ -126,7 +127,7 @@ class ReaderLog {
 			/**
 			 * Subtraio o valor do jogador que foi morto pelo <world>
 			 */
-			$this->out->{'game_' . $this->count}->kills->{$this->died($this->kill($this->line))}->total--;
+			$this->out->{'game_' . $this->count}->kills->{Valid::died(Valid::kill($this->line))}->total--;
 
 		} else {
 			/**
@@ -134,7 +135,7 @@ class ReaderLog {
 			 * atenção se o jogador estava com 0 e é morto pelo <world> ele vai para -1 caso depois ele mate alguem sua pontuação será 
 			 * somada mais 1 e voltarar para o 0, caso ele mate outro jogador novamente sua pontuação será somada e subirar para 1
 			 */
-			$this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->total++;
+			$this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->total++;
 		}
 		
 	}
@@ -143,11 +144,11 @@ class ReaderLog {
 		/**
 		 * Nessa parte eu inicializo os dados só mente para manter o controle e saber quem o jogador matou
 		 */
-		if(!isset($this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->dados))
-			$this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->dados = null;
+		if(!isset($this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->dados))
+			$this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->dados = null;
 
-		if(!is_array($this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->dados)) 
-			$this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->dados = [];
+		if(!is_array($this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->dados)) 
+			$this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->dados = [];
 		
 		/**
 		 * Inicializando os dados 
@@ -158,10 +159,10 @@ class ReaderLog {
 		 * $s->causesDeath : e nesse atributo eu sei qual foi a causa da morte de cada um que foi morto por esse jogador
 		 */
 		$s = new \stdClass;
-		$s->text = $this->kill($this->line);
-		$s->killed = $this->killed($this->kill($this->line));
-		$s->died = $this->died($this->kill($this->line));
-		$s->causesDeath = $this->causesDeath($this->kill($this->line));
+		$s->text = Valid::kill($this->line);
+		$s->killed = Valid::killed(Valid::kill($this->line));
+		$s->died = Valid::died(Valid::kill($this->line));
+		$s->causesDeath = Valid::causesDeath(Valid::kill($this->line));
 
 		/**
 		 * atribuindo o valor da soma de todas as formas de morte no jogo
@@ -179,7 +180,7 @@ class ReaderLog {
 		/**
 		 * atribuindo o $s a array
 		 */
-		$this->out->{'game_' . $this->count}->kills->{$this->killed($this->kill($this->line))}->dados[] = $s;
+		$this->out->{'game_' . $this->count}->kills->{Valid::killed(Valid::kill($this->line))}->dados[] = $s;
 		
 	}
 
@@ -187,7 +188,7 @@ class ReaderLog {
 	 * verifico as ocorrencias de morte
 	 */
 	private function kill() {
-		if($this->kill($this->line)) { 
+		if(Valid::kill($this->line)) { 
 
 			$this->initListKillsPlayers();
 			
@@ -221,9 +222,10 @@ class ReaderLog {
 
 				$this->initListKillsByMeans();
 
-
+				$this->kill();
 			}
 		}
+		return $this->out;
 	}
 
 }

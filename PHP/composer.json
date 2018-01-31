@@ -26,7 +26,7 @@
             "Tests\\": "tests/",
             "App\\": "app/",
             "App\\Models\\": "app/Models/",
-            "App\\Library\\": "tests/"
+            "App\\Library\\": "app/Library/"
         }
     },
     "config": {

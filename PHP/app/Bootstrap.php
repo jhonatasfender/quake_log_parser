@@ -6,6 +6,8 @@ use App\Models\Kills;
 use App\Models\Players;
 use App\Models\Game;
 use App\Models\Dados;
+use App\Library\ReaderLog;
+use App\Library\Migration;
 
 class Bootstrap {
 
@@ -15,88 +17,29 @@ class Bootstrap {
 	public $players;
 	public $dados;
 
-	private $out;
 	private $count = 0;
 	private $k;
 	
+	private $out;
+	private $read;
+	private $migration;
+
 	public function __construct() {
 		try {
-
-			/**
-			 * aqui vou pecorrer a lista gerada anteriomente
-			 */
-			foreach ($this->out as $a => $b) {
-
-				/**
-				 * aqui vou gravar no banco o inicio do jogo
-				 */
-				$this->game->name = $a;
-				$this->game->total_kills = $b->total_kills;
-				$this->game = $this->game->save();
-
-				/**
-				 * aqui vou pecorrer a lista gerada anteriomente dos nomes das mortes  
-				 */
-				foreach ($b->kills_by_means as $c => $v) {
-
-					/**
-					 * aqui vou gravar no banco os tipos de mortes relacionado pelo inicio do jogo
-					 */
-					$this->killsByMeans = new KillsByMeans();
-					$this->killsByMeans->name = $c;
-					$this->killsByMeans->id_game = $this->game->id_game;
-					$this->killsByMeans->total = $v;
-					$this->killsByMeans = $this->killsByMeans->save();
-				}
-
-				/**
-				 * aqui vou percorrer a lista com os nomes dos jogadores
-				 */
-				foreach ($b->players as $c) {
-					/**
-					 * aqui vou gravar no banco os nomes dos jogadores
-					 */
-					$this->players = new Players();
-					$this->players->name = $c;
-					$this->players->id_game = $this->game->id_game;
-					$this->players = $this->players->save();
-
-					/**
-					 * aqui vou percorrer a lista com os jogadores que mataram no jogo e verifico comparando com a lista de players
-					 */
-					foreach ($b->kills as $d => $e) {
-
-						/**
-						 * aqui vou compar os nomes para saber quem matou e inserir no banco de dados
-						 */
-						if($d == $this->players->name) {
-							$this->kills = new Kills();
-							$this->kills->name = $d;
-							$this->kills->id_players = $this->players->id_players;
-							$this->kills->total = $e->total;
-							$this->kills = $this->kills->save();
-
-							foreach ($e->dados as $f) {
-								$this->dados = new Dados();
-								$this->dados->causesDeath = $f->causesDeath;
-								$this->dados->died = $f->died;
-								$this->dados->killed = $f->killed;
-								$this->dados->text = $f->text;
-								$this->dados->id_kills = $this->kills->id_kills;
-								$this->dados = $this->dados->save();
-							}
-						}
-					}
-				}
-			}	
+			$this->game = new Game();
+			if(!$this->game->findAll()) {
+				$this->read = new ReaderLog();
+				$this->migration = new Migration($this->read->init());
+			}
 		} catch (\Exception $e) {
-			echo "teste";exit();
+			
 		}
 	}
 
-	public function get() {
+	public function get($search = null) {
 		$this->game = new Game();
-		return $this->game->count();
+		$this->count = $this->game->count($search);
+		return $this->count ? $this->count : null;
 	}
 
 	
