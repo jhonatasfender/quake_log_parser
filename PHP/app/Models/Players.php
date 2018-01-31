@@ -45,10 +45,11 @@ class Players extends Connection {
 		];
 
 		if($this->find(['name' => $this->name, 'id_game' => $this->id_game])) {
-			$this->update($this->id_kills_by_means);
+			d(['name' => $this->name, 'id_game' => $this->id_game]);
+			$this->update($this->id_players);
 			return $this;
 		} else {
-			$this->id_kills_by_means = parent::insert();
+			$this->id_players = parent::insert();
 			return $this;
 		}
 	}

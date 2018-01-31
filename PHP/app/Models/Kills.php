@@ -46,7 +46,6 @@ class Kills extends Connection {
 			'id_players' => $this->id_players,
 			'total' => $this->total
 		];
-
 		if($this->find(['name' => $this->name, 'id_players' => $this->id_players])) {
 			$this->update($this->id_kills);
 			return $this;

@@ -53,7 +53,7 @@ class Dados extends Connection {
 			'id_kills' => $this->id_kills
 		];
 
-		if($this->find(['name' => $this->name, 'id_kills' => $this->id_kills])) {
+		if($this->find('id_kills',$this->id_kills)) {
 			$this->update($this->id_dados);
 			return $this;
 		} else {

@@ -47,12 +47,18 @@ class Game extends Connection {
 	}
 
 	public function count() {
-		/*$q = $this->conn->prepare("
-
+		$q = $this->conn->prepare("
+			SELECT 	p.name,
+					IF(sum(k.total) IS NULL,0,sum(k.total)) AS total
+			FROM game AS g
+			LEFT JOIN players AS p ON p.id_game = g.id_game
+			LEFT JOIN kills AS k ON k.id_players = p.id_players
+			GROUP BY p.name
+			ORDER BY total DESC;
 		");
 
-		$this->find->execute();
-		return $this->find->fetchObject();*/
+		$q->execute();
+		return $q->fetchAll(\PDO::FETCH_OBJ);
 	}
 
 }

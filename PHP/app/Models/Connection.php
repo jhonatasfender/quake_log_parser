@@ -87,16 +87,16 @@ class Connection {
 	protected function update($id) {
 		$this->ins = "";
 		foreach ($this->columns as $field => $v) 
-			$this->ins .= "$field = :$field";
-
-		$this->sql = "UPDATE $this->table SET $this->ins WHERE $this->key = :$this->key";
+			$this->ins .= "{$field} = :{$field}, ";
+		$this->ins = substr($this->ins,0,strlen($this->ins) - 2);
+		$this->sql = "UPDATE $this->table SET $this->ins WHERE $this->key = :id";
 
 		$this->sth = $this->conn->prepare($this->sql);
 		
 		foreach ($this->columns as $f => $v)
 			$this->sth->bindValue(':' . $f, $v);
 
-		$this->sth->bindValue(":$this->key", $id);
+		$this->sth->bindValue(":id", $id);
 
 		$this->sth->execute();
 	}
@@ -105,6 +105,7 @@ class Connection {
 		$this->ins = [];
 		foreach ($this->columns as $field => $v) 
 			$this->ins[] = ":$field";
+
 		$this->ins = implode(',', $this->ins);
 		$this->fields = implode(',', array_keys($this->columns));
 		$this->sql = "INSERT INTO $this->table ($this->fields) VALUES ($this->ins)";

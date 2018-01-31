@@ -14,8 +14,10 @@
                 RANKING
             </div>
             <div>
-                <input type="text" placeholder="Busca por nome">
-                <button>Buscar</button>
+                <form action="search">
+                    <input type="text" placeholder="Busca por nome" name="search">
+                    <button>Buscar</button>                    
+                </form>
             </div>
             <div>
                 <table>
@@ -51,10 +53,12 @@
                             <span>KILLS</span>
                         </th>
                     </tr>
-                    <tr>
-                        <td>Temiqui Explaute Numuam</td>
-                        <td>79</td>
-                    </tr>
+                    <?php foreach ($b as $v): ?>
+                        <tr>
+                            <td><?php echo $v->name ?></td>
+                            <td><?php echo $v->total ?></td>
+                        </tr>
+                    <?php endforeach ?>
                 </table>
             </div>
         </div>
