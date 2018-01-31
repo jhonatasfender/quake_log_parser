@@ -31,7 +31,7 @@ class Connection {
 
 		$this->createConnection(self::INFORMATIONSCHEMA);
 
-		$this->conn->query('CREATE DATABASE IF NOT EXISTS ' . self::QUAKELOGPARSER);
+		$this->conn->query('CREATE SCHEMA IF NOT EXISTS ' . self::QUAKELOGPARSER . ' DEFAULT CHARACTER SET utf8 ');
 		
 		$this->conn = null;
 	}
