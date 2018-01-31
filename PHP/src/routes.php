@@ -7,10 +7,12 @@ use Slim\Http\Response;
 
 $app->get('/[{name}]', function (Request $request, Response $response, array $args) {
     $b = new \App\Bootstrap();
-    // Sample log message
+    
+    $b->get();
+
     $this->logger->info("Slim-Skeleton '/' route");
 
 
-    // Render index view
+    
     return $this->renderer->render($response, 'index.phtml', $args);
 });

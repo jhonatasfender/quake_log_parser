@@ -4,16 +4,15 @@ namespace App\Models;
 
 use App\Models\Connection;
 
-class KillsByMeans extends Connection {
+class Players extends Connection {
 
-	public $id_kills_by_means;
+	public $id_players;
 	public $name;
 	public $id_game;
-	public $total;
 
-	protected $object = "\App\Models\KillsByMeans";
-	protected $table = "kills_by_means";
-	protected $key = "id_kills_by_means";
+	protected $object = "\App\Models\Players";
+	protected $table = "players";
+	protected $key = "id_players";
 
 	public function __construct() {
 		parent::__construct();
@@ -22,16 +21,15 @@ class KillsByMeans extends Connection {
 
 	private function execute() {
 		$this->conn->query("
-			CREATE TABLE IF NOT EXISTS quake_log_parser.kills_by_means (
-				id_kills_by_means 	INT(11) NOT NULL AUTO_INCREMENT,
-				name 				VARCHAR(45) NOT NULL,
-				id_game 			INT(11) NOT NULL,
-				total	 			INT(11) NOT NULL,
+			CREATE TABLE IF NOT EXISTS quake_log_parser.players (
+				id_players 	INT(11) NOT NULL AUTO_INCREMENT,
+				name 		VARCHAR(45) NOT NULL,
+				id_game 	INT(11) NOT NULL,
 
-				PRIMARY KEY (id_kills_by_means),
-					INDEX fk_kills_by_means_game_idx (id_game ASC),
-
-				CONSTRAINT fk_kills_by_means_game
+				PRIMARY KEY (id_players),
+					INDEX fk_players_game_idx (id_game ASC),
+				
+				CONSTRAINT fk_players_game
 					FOREIGN KEY (id_game)
 					REFERENCES quake_log_parser.game (id_game)
 						ON DELETE NO ACTION
@@ -43,8 +41,7 @@ class KillsByMeans extends Connection {
 	public function save() {
 		$this->columns = [
 			'name' => $this->name,
-			'id_game' => $this->id_game,
-			'total' => $this->total
+			'id_game' => $this->id_game
 		];
 
 		if($this->find(['name' => $this->name, 'id_game' => $this->id_game])) {

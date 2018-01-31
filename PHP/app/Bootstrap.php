@@ -1,9 +1,18 @@
 <?php 
 namespace App;
 
+use App\Models\KillsByMeans;
+use App\Models\Kills;
+use App\Models\Players;
+use App\Models\Game;
+use App\Models\Dados;
+
 class Bootstrap {
 
 	public $game;
+	public $killsByMeans;
+	public $kills;
+	public $players;
 
 	private $out;
 	private $count = 0;
@@ -12,7 +21,7 @@ class Bootstrap {
 	public function __construct() {
 		$this->out = new \stdClass;
 		
-		$this->game = new \App\Models\Game();
+		$this->game = new Game();
 
 		foreach (file(__DIR__ . "/log/games.log") as $line) {
 
@@ -23,6 +32,7 @@ class Bootstrap {
 				$this->count++;
 				$this->out->{'game_' . $this->count} = new \stdClass; 
 			}
+
 			if($this->count <> 0) { 
 				/**
 				 * verifico se existe o total de kills e atribuo 0 para ele
@@ -142,8 +152,69 @@ class Bootstrap {
 			}
 		}
 
-		d($this->out);
+		/**
+		 * aqui vou pecorrer a lista gerada anteriomente
+		 */
+		foreach ($this->out as $a => $b) {
 
+			/**
+			 * aqui vou gravar no banco o inicio do jogo
+			 */
+			$this->game->name = $a;
+			$this->game->total_kills = $b->total_kills;
+			$this->game = $this->game->save();
+
+			/**
+			 * aqui vou pecorrer a lista gerada anteriomente dos nomes das mortes  
+			 */
+			foreach ($b->kills_by_means as $c => $v) {
+
+				/**
+				 * aqui vou gravar no banco os tipos de mortes relacionado pelo inicio do jogo
+				 */
+				$this->killsByMeans = new KillsByMeans();
+				$this->killsByMeans->name = $c;
+				$this->killsByMeans->id_game = $this->game->id_game;
+				$this->killsByMeans->total = $v;
+				$this->killsByMeans = $this->killsByMeans->save();
+			}
+
+			/**
+			 * aqui vou percorrer a lista com os nomes dos jogadores
+			 */
+			foreach ($b->players as $c) {
+				/**
+				 * aqui vou gravar no banco os nomes dos jogadores
+				 */
+				$this->players = new Players();
+				$this->players->name = $c;
+				$this->players->id_game = $this->game->id_game;
+				$this->players = $this->players->save();
+
+				/**
+				 * aqui vou percorrer a lista com os jogadores que mataram no jogo e verifico comparando com a lista de players
+				 */
+				foreach ($b->kills as $d => $e) {
+
+					/**
+					 * aqui vou compar os nomes para saber quem matou e inserir no banco de dados
+					 */
+					if($d == $this->players->name) {
+						d($e);
+						$this->kills = new Kills();
+						$this->kills->name = $d;
+						$this->kills->id_players = $this->players->id_players;
+						$this->kills->total = $e->total;
+						$this->kills = $this->kills->save();
+					}
+				}
+			}
+		}
+	}
+
+	public function get() {
+		$this->game = new Game();
+		d($this->game->count());
 	}
 
 	private function startGame($i) { 
