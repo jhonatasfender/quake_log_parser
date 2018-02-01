@@ -30,7 +30,7 @@ A tabela dados eu criei somente para o meu controle e para ter o visual de quem 
 Creio que deu para dar uma orientada de como importei o arquivo para o banco, para que esse README não fique muito grande irei colocar os links para que vocês leitores possam ser redirecionados para as devidas paginas
 
 ### [PHP](quake_log_parser/DOC/PHP/index.md)
-### [NodeJs](https://raw.githubusercontent.com/jhonatasfender/quake_log_parser/master/DOC/NODE/index.md)
+### [NodeJs](https://github.com/jhonatasfender/quake_log_parser/master/DOC/NODE/index.md)
 
 Clique nesses dois links que vocês verão como dá o start no projeto.
 
