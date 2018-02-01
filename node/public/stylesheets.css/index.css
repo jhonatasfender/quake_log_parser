@@ -1,0 +1,72 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+html, body {
+  height: 100%; }
+
+body {
+  font-family: "Roboto", sans-serif; }
+  body .container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    background-color: #DADADA;
+    min-height: 100%;
+    align-items: center;
+    justify-content: center; }
+    body .container div {
+      margin: 20px; }
+    body .container div:nth-child(1) {
+      font-size: 34px;
+      font-weight: bold; }
+    body .container div:nth-child(2) {
+      display: flex; }
+      body .container div:nth-child(2) input {
+        background-color: transparent;
+        color: #646363;
+        border-left: 1px solid;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+        border-right: 0px;
+        border-color: #FFFFFF;
+        height: 36px;
+        width: 247px;
+        padding: 6px;
+        font-size: 20px; }
+      body .container div:nth-child(2) button {
+        background-color: #646363;
+        color: #F7A600;
+        border: 0px;
+        width: 126px;
+        height: 50px;
+        font-size: 20px; }
+    body .container table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      width: 386px; }
+      body .container table tr {
+        border: 0px;
+        background-color: #7C7B7B; }
+        body .container table tr th {
+          padding: 5px;
+          font-size: 24px;
+          text-align: start;
+          background-color: #F7A600;
+          height: 42px; }
+          body .container table tr th svg {
+            width: 27px;
+            margin-left: 59px; }
+        body .container table tr td {
+          color: #FFFFFF;
+          padding: 5px;
+          height: 42px; }
+        body .container table tr td:nth-child(2) {
+          text-align: center;
+          font-weight: bold; }
+          body .container table tr td:nth-child(2) span {
+            color: #F7A600; }
+      body .container table tr:nth-child(even) {
+        background-color: #646363; }
+
+/*# sourceMappingURL=index.css.map */
