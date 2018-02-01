@@ -51,9 +51,9 @@ exports.home = function(req, res) {
 		            }
 		            	
 	            	out['game_' + count].kills[valid.died(s[i])].total--;
-	            	out['game_' + count].kills[valid.killed(s[i])].total++;
-	            } else if(valid.killed(s[i])) {
-	            	out['game_' + count].kills[valid.killed(s[i])].total++;
+	            } else if(valid.kill(s[i])) {
+	            	if(out['game_' + count].kills[valid.killed(s[i])] != undefined)
+	            		out['game_' + count].kills[valid.killed(s[i])].total++;
 	            }
 	            if(out['game_' + count].kills[valid.playerName(s[i])] != undefined) { 
 

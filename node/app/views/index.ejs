@@ -55,10 +55,12 @@
                     </tr>
 
                     <% for(let i in out) { %>
-                        <tr>
-                            <td><%= out[i].name %></td>
-                            <td><%= out[i].total %></td>
-                        </tr>
+                        <% if (out[i].name != '<world>') { -%>
+                            <tr>
+                                <td><%= out[i].name %></td>
+                                <td><%= out[i].total %></td>
+                            </tr>
+                        <% } -%>
                     <% } %>
                 </table>
             </div>
